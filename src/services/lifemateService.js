@@ -150,6 +150,93 @@ async function getRecordById(body){
   }
 }
 
+async function changePassword(body) {
+  const { idUser, currentPassword, newPassword } = body;
+  if (!idUser || !currentPassword || !newPassword) {
+    return {
+      message: "Empty value",
+    };
+  }
+  const query = `SELECT * FROM account WHERE id = ${idUser}`;
+  const result = await db.query(query);
+  if (result.rows.length === 0) {
+    return {
+      message: "User not found",
+    };
+  } else {
+    const user = result.rows[0];
+    if (await security.comparePassword(currentPassword, user.password)) {
+      const hashPassword = await security.hashPassword(newPassword);
+      const updateQuery = `UPDATE account SET password = '${hashPassword}' WHERE id = ${idUser}`;
+      await db.query(updateQuery);
+      return {
+        message: "Password changed successfully",
+      };
+    } else {
+      return {
+        message: "Invalid current password",
+      };
+    }
+  }
+}
+
+async function updateUser(body) {
+  const { idUser, name, email, gender, birthDate } = body;
+  const getUserQuery = `SELECT * FROM account WHERE id = ${idUser}`;
+  const getUserResult = await db.query(getUserQuery);
+
+  if (getUserResult.rows.length === 0) {
+    return {
+      message: "User not found",
+    };
+  }
+
+  const user = getUserResult.rows[0];
+  const updateFields = [];
+  const errors = [];
+
+  if (name && name !== user.name) {
+    updateFields.push(`name = '${name}'`);
+  }
+  if (email && email !== user.email) {
+    const checkEmailQuery = `SELECT * FROM account WHERE email = '${email}'`;
+    const checkEmailResult = await db.query(checkEmailQuery);
+    if (checkEmailResult.rows.length > 0) {
+      errors.push("Email is already taken");
+    } else {
+      updateFields.push(`email = '${email}'`);
+    }
+  }
+  if (gender && gender !== user.gender) {
+    if (gender === "laki-laki" || gender === "perempuan") {
+      updateFields.push(`gender = '${gender}'`);
+    } else {
+      errors.push("Invalid gender");
+    }
+  }
+  if (birthDate && birthDate !== user.birthdate) {
+    updateFields.push(`birthdate = '${birthDate}'`);
+  }
+
+  if (updateFields.length === 0) {
+    return {
+      message: "No fields to update",
+    };
+  }
+
+  if (errors.length > 0) {
+    return {
+      errors,
+    };
+  }
+
+  const updateQuery = `UPDATE account SET ${updateFields.join(", ")} WHERE id = ${idUser}`;
+  await db.query(updateQuery);
+
+  return {
+    message: "User data updated successfully",
+  };
+}
 
 module.exports = {
   register,
@@ -158,5 +245,7 @@ module.exports = {
   getUserById,
   insertRecord,
   deleteRecord,
-  getRecordById
+  getRecordById,
+  changePassword,
+  updateUser,
 };

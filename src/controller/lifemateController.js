@@ -7,7 +7,7 @@ async function register(req, res) {
     res.json(result);
   } catch (err) {
     if(err.code == 23505){
-      const message = { message: "User already exists",}
+      const message = { message: "Email Already Registered",}
       res.json(message)
     }
     else{
@@ -70,6 +70,23 @@ async function getRecordById(req,res){
   }
 }
 
+async function changePassword(req, res) {
+  try {
+    const result = await lifemateService.changePassword(req.body);
+    res.json(result);
+  } catch (err) {
+    res.json(err.detail);
+  }
+}
+
+async function updateUser(req, res) {
+  try {
+    const result = await lifemateService.updateUser(req.body);
+    res.json(result);
+  } catch (err) {
+    res.json(err.detail);
+  }
+}
 
 module.exports = {
   register,
@@ -78,5 +95,7 @@ module.exports = {
   getUserById,
   insertRecord,
   deleteRecord,
-  getRecordById
+  getRecordById,
+  changePassword,
+  updateUser,
 };

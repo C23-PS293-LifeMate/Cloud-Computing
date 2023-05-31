@@ -11,6 +11,7 @@ router.get('/getUserById/:userId', middleware.verifyToken, lifemateController.ge
 router.post('/insertRecord', middleware.verifyToken, lifemateController.insertRecord);
 router.delete('/deleteRecord/:recordId', middleware.verifyToken, lifemateController.deleteRecord);
 router.get('/getRecordById/:userId', middleware.verifyToken, lifemateController.getRecordById);
-
+router.post('/changePassword', middleware.verifyToken, lifemateController.changePassword);
+router.post('/updateUser', middleware.verifyToken, lifemateController.updateUser);
 
 module.exports = router;
