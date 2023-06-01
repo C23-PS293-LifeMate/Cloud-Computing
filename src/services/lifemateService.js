@@ -81,8 +81,8 @@ async function getUserById(body){
 }
 
 async function insertRecord(body){
-  const {idUser, height, weight, weeklyToDoList, userHelp, achievement, selfReward} = body
-  if (!idUser || !height || !weight || !weeklyToDoList || !userHelp || !achievement || !selfReward){
+  const {idUser, height, weight, weeklyToDoList, userHelp, passionate, selfReward} = body
+  if (!idUser || !height || !weight || !weeklyToDoList || !userHelp || !passionate || !selfReward){
     return {
       message: "Empty body"
     }
@@ -101,8 +101,8 @@ async function insertRecord(body){
   if (user.gender === 'perempuan'){
 
   }
-  query = `INSERT INTO RECORD (height, weight, weeklytodolist, userhelp, achievement, selfreward, obesity, stress) VALUES (${height}, ${weight}, ${weeklyToDoList}, 
-    ${userHelp}, ${achievement}, ${selfReward}, 1, 2 ); INSERT INTO ACCOUNTRECORD (accountid) values ('${idUser}');`;
+  query = `INSERT INTO RECORD (height, weight, weeklytodolist, userhelp, passionate, selfreward, obesity, stress) VALUES (${height}, ${weight}, ${weeklyToDoList}, 
+    ${userHelp}, ${passionate}, ${selfReward}, 1, 2 ); INSERT INTO ACCOUNTRECORD (accountid) values ('${idUser}');`;
   const result = await db.query(query);
   if (result[0].rowCount !== 0 && result[1].rowCount !== 0){
     return {
