@@ -3,7 +3,7 @@ const db = require("../config/config");
 const jwt = require("jsonwebtoken");
 const security = require("../utils/security")
 const middleware = require ("../middleware/auth")
-
+const models = require ("../models/modelProcessing")
 async function register(body) {
   const { name, email, password, gender, birthDate } = body;
   if (!name || !email || !password || !gender || !birthDate) {
@@ -94,13 +94,8 @@ async function insertRecord(body){
       message: "Error"
     }
   }
-  const user = tempUser.rows[0]
-  if (user.gender === 'laki-laki'){
-
-  }
-  if (user.gender === 'perempuan'){
-
-  }
+  body['gender'] = tempUser.rows[0].gender
+  models.loadModel(body)
   query = `INSERT INTO RECORD (height, weight, weeklytodolist, userhelp, passionate, selfreward, obesity, stress) VALUES (${height}, ${weight}, ${weeklyToDoList}, 
     ${userHelp}, ${passionate}, ${selfReward}, 1, 2 ); INSERT INTO ACCOUNTRECORD (accountid) values ('${idUser}');`;
   const result = await db.query(query);
