@@ -95,15 +95,15 @@ async function insertRecord(body){
     }
   }
   body['gender'] = tempUser.rows[0].gender
-  models.loadModel(body)
+  const predictOutput = await models.loadModel(body)
   query = `INSERT INTO RECORD (height, weight, weeklytodolist, userhelp, passionate, selfreward, obesity, stress) VALUES (${height}, ${weight}, ${weeklyToDoList}, 
-    ${userHelp}, ${passionate}, ${selfReward}, 1, 2 ); INSERT INTO ACCOUNTRECORD (accountid) values ('${idUser}');`;
+    ${userHelp}, ${passionate}, ${selfReward}, ${predictOutput.bmiOutput}, ${predictOutput.stressOutput} ); INSERT INTO ACCOUNTRECORD (accountid) values ('${idUser}');`;
   const result = await db.query(query);
   if (result[0].rowCount !== 0 && result[1].rowCount !== 0){
     return {
       message: "Record inserted",
-      obesity: "normal",
-      stress: "normal"
+      obesity: predictOutput.bmiOutput,
+      stress: predictOutput.stressOutput
     };
   }
   else{

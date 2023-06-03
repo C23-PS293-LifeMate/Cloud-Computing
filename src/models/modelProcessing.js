@@ -1,9 +1,9 @@
 // Import TensorFlow.js library
 const tf = require ('@tensorflow/tfjs-node');
+const bmiModels = require ('./bmiModel')
 
 // Load the model
 async function loadModel(body) {
-  const model = await tf.loadLayersModel('file://bmiModel.json');
   if (body.gender === 'laki-laki'){
     body.gender = '1';
   }
@@ -12,8 +12,14 @@ async function loadModel(body) {
   }
   const valuesArray = Object.entries(body).map(([key, value]) => value);
   const bmiIndexs = [7, 1, 2];
-  const bmiInput = bmiIndexs.map(index => array[index]);
-  console.log(bmiInput);
+  const bmiInput = bmiIndexs.map(index => valuesArray[index]);
+  const bmiOutput = bmiModels.bmiPredict(bmiInput)
+  const stressOutput = 5 
+  const predictOutput = {
+    bmiOutput: bmiOutput,
+    stressOutput: stressOutput
+  }
+  return predictOutput
 }
 
 // Call the loadModel function
