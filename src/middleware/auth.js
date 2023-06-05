@@ -3,7 +3,7 @@ const secretKey = "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N"
 
 async function generateToken(idUser) {
     const payload = { idUser };
-    const options = { expiresIn: "1h" };
+    const options = { expiresIn: "365d" };
     return jwt.sign(payload, secretKey, options);
   }
 
