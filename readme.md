@@ -24,15 +24,8 @@ LifeMate is your ultimate health prediction app, powered by advanced machine lea
 
 With LifeMate, you can effortlessly track your health metrics and receive personalized predictions. Our app currently predicts BMI and stress levels, helping you understand your body mass index and manage stress effectively. But we don't stop there – we're continuously expanding our predictive capabilities to cover a range of diseases and conditions.
 
+
 # Features
-- Account registration and logging in
-- Check you BMI level and Stress score
-- Get recomendation according your BMI level and Stress score
-- Save history every time you check Check you BMI level and Stress score
-- And more!
-
-
-## Usage
 Using the api could be done by making a request to external ip of the compute engine in use and port, the list of routes that can be used is:
 - /register, this route could be used to register a new user to the database
 - /login, this route could be used to do a log in to an user account that has been registered and get the login token
@@ -47,9 +40,34 @@ Using the api could be done by making a request to external ip of the compute en
 
 For more details, you can access the postman documentation [here](https://documenter.getpostman.com/view/27565502/2s93m354qh) .
 
+## Usage
+To run the code on your computer by cloning the GitHub repository, follow these steps:
+1. Clone our github repository
+```bash
+git clone https://github.com/C23-PS293-LifeMate/Cloud-Computing.git
+```
+2. Open terminal on your IDE and run
+```bash
+npm install
+```
+3. Don't forget to make .env file and edit it to
+```bash
+host=127.0.0.1
+port=5432
+database=lifemate
+user=postgres
+password=123
+```
+4. You can connect the port and database with running the index.js file using
+```bash
+node index.js
+```
+
+5. (optional) You can easily test our API routes with using postman with the help of our [documentation](https://documenter.getpostman.com/view/27565502/2s93m354qh)
 
 # Some Tools and Libraries Used
 - Google Cloud Compute Engine
+- Postman
 - JWT Authentication
 - PostgreSQL
 - Node.js
