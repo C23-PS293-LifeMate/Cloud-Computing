@@ -44,7 +44,7 @@ Using the api could be done by making a request to external ip of the compute en
 - /changePassword, this route could be used to change an account password
 - /updateUser, this route could be used to update user data
 <br/>
-For more details, you can access the postman documentation [here](https://documenter.getpostman.com/view/27565502/2s93m354qh).
+For more details, you can access the postman documentation [here](https://intip.in/lifematepostman).
 <br/>
 
 # Some Tools and Libraries Used
